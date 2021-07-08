@@ -9,11 +9,11 @@ import {
 } from 'react-native';
 import {IProduct} from '../interfaces/product';
 
-interface RelatedProductProps {
+interface SameProductDiferentStoreProps {
   item: IProduct;
 }
 
-export const RelatedProduct: React.FC<RelatedProductProps> = ({item}) => {
+export const SameProductDiferentStore: React.FC<SameProductDiferentStoreProps> = ({item}) => {
 
   let logo = '';
   let logoName = '';

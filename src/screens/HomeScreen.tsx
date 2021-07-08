@@ -1,20 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   ActivityIndicator,
   Dimensions,
-  FlatList,
   Image,
   ScrollView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import {SearchBox} from '../components/SearchBox';
-import database from '@react-native-firebase/database';
-import {prefix} from '../common/contants';
-import {IProduct} from '../interfaces/product';
 import {GridListProduct} from '../components/GridListProduct';
-import { useProducts } from '../hooks/useProducts';
+import {SearchBox} from '../components/SearchBox';
+import {useProducts} from '../hooks/useProducts';
 
 const screenHeight = Dimensions.get('screen').height;
 const screenWidth = Dimensions.get('screen').width;
@@ -22,9 +18,9 @@ const screenWidth = Dimensions.get('screen').width;
 interface HomeScreenProps {}
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
-  const { products, isLoading } = useProducts();
+  const {products, isLoading} = useProducts();
   const uri = `https://img.freepik.com/vector-gratis/diseno-cartel-venta-halloween-oferta-70-descuento_1302-24185.jpg`;
-  
+
   return (
     <ScrollView>
       <View style={{marginHorizontal: 20}}>
@@ -81,7 +77,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
                 source={require('../images/maps.png')}
               />
               <Text style={{alignSelf: 'center'}}>
-                Lugar más cercano para comprar
+                Variedad de productos tecnológicos y electrónicos
               </Text>
             </View>
           </View>

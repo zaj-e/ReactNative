@@ -14,7 +14,7 @@
 		1DB57AA780681F6B59A945BA /* libPods-comparizy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6FB24A7E54E48126DE73C11 /* libPods-comparizy.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		9800ABFBFF48137A7D67ED25 /* libPods-comparizy-comparizyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B48FE7A0178702918E5D6416 /* libPods-comparizy-comparizyTests.a */; };
-		CF9C6B052693987600A49453 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF9C6B042693987600A49453 /* GoogleService-Info.plist */; };
+		CF83E0E42697A70600C7679E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF83E0E32697A70600C7679E /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,7 +43,7 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = comparizy/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B48FE7A0178702918E5D6416 /* libPods-comparizy-comparizyTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-comparizy-comparizyTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB17393951845E25FDAACCB6 /* Pods-comparizy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-comparizy.debug.xcconfig"; path = "Target Support Files/Pods-comparizy/Pods-comparizy.debug.xcconfig"; sourceTree = "<group>"; };
-		CF9C6B042693987600A49453 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CF83E0E32697A70600C7679E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CFC0735E26937BE500E9B90C /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ionicons.ttf; sourceTree = "<group>"; };
 		D6FB24A7E54E48126DE73C11 /* libPods-comparizy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-comparizy.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -119,7 +119,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				CF9C6B042693987600A49453 /* GoogleService-Info.plist */,
+				CF83E0E32697A70600C7679E /* GoogleService-Info.plist */,
 				CFC0735D26937BD700E9B90C /* Fonts */,
 				13B07FAE1A68108700A75B9A /* comparizy */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -256,7 +256,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				CF9C6B052693987600A49453 /* GoogleService-Info.plist in Resources */,
+				CF83E0E42697A70600C7679E /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
