@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "266199817839",
+    "firebase_url": "https://comparizy-c73ab-default-rtdb.firebaseio.com",
+    "project_id": "comparizy-c73ab",
+    "storage_bucket": "comparizy-c73ab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:266199817839:android:936cc2c305fc980443379a",
+        "android_client_info": {
+          "package_name": "com.comparizy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "266199817839-mdhi7nj8ehv8eri3lba2e7keevsmahio.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3gVyF9885bWwiiyDvrFWM-31NaUXDI08"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "266199817839-mdhi7nj8ehv8eri3lba2e7keevsmahio.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
