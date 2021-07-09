@@ -1,10 +1,10 @@
-import { createStackNavigator } from '@react-navigation/stack';
-import React, { useContext, useEffect } from 'react';
-import { Button, Image, StyleSheet } from 'react-native';
-import { AuthContext } from '../context/AuthContext';
-import { IProduct } from '../interfaces/product';
-import { HomeScreen } from '../screens/HomeScreen';
-import { ProductDetail } from '../screens/ProductDetail';
+import {createStackNavigator} from '@react-navigation/stack';
+import React, {useContext, useEffect} from 'react';
+import {Button, Image, Platform, StyleSheet} from 'react-native';
+import {AuthContext} from '../context/AuthContext';
+import {IProduct} from '../interfaces/product';
+import {HomeScreen} from '../screens/HomeScreen';
+import {ProductDetail} from '../screens/ProductDetail';
 
 export type StackNavigationProps = {
   HomeScreen: undefined;
@@ -15,7 +15,7 @@ const Stack = createStackNavigator();
 
 export const StackNavigation: React.FC<StackNavigationProps> = ({}) => {
   const {authState, signIn, checkIsLoggedIn} = useContext(AuthContext);
-  
+
   useEffect(() => {
     checkIsLoggedIn();
   }, []);
@@ -23,9 +23,12 @@ export const StackNavigation: React.FC<StackNavigationProps> = ({}) => {
   return (
     <Stack.Navigator
       screenOptions={{
+        title: "Comparizy",
         headerTitleStyle: {
+          textAlign: 'center',
           color: 'orange',
           fontWeight: 'bold',
+          marginRight: Platform.OS === 'android' && authState.isLoggedIn ? 50 : 0
         },
         cardStyle: {
           backgroundColor: 'white',
@@ -38,10 +41,8 @@ export const StackNavigation: React.FC<StackNavigationProps> = ({}) => {
           headerRight: () =>
             !authState.isLoggedIn ? (
               <Button onPress={signIn} title="Iniciar sesión" color="#0096FF" />
-            ) : (
-              // <Button onPress={logout} title="Cerrar sesión" color="#0096FF" />
-              null
-            ),
+            ) : // <Button onPress={logout} title="Cerrar sesión" color="#0096FF" />
+            null,
           headerLeftContainerStyle: {marginLeft: 15},
           headerLeft: () => {
             return authState.userImage ? (

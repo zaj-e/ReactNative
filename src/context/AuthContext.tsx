@@ -35,7 +35,6 @@ export const AuthProvider = ({children}: any) => {
 
   const signIn = async () => {
     try {
-      // await GoogleSignin.hasPlayServices(); 
       // Get the user token
       const { idToken } = await GoogleSignin.signIn();
       // Create a google credential with the token
@@ -48,8 +47,6 @@ export const AuthProvider = ({children}: any) => {
         JSON.stringify(user)
       );
 
-      console.log(JSON.stringify(user, null, 2))
-      
       dispatch({type: 'signIn', payload: user});
     } catch(err) {
       console.log(err.message)
@@ -60,12 +57,9 @@ export const AuthProvider = ({children}: any) => {
     try {
       const value = await AsyncStorage.getItem('user');
       if (value !== null) {
-        console.log("IS LOGGED IN")
         const user = JSON.parse(value);
         dispatch({type: 'signIn', payload: user});
-      } else {
-        console.log("IS NOT LOGGED IN")
-      }
+      } 
     } catch (error) {
       console.log(error);
     }

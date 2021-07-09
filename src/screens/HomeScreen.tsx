@@ -74,7 +74,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
             <View style={styles.horizontalDisplayContainer}>
               <Image
                 style={styles.horizontalDisplay}
-                source={require('../images/maps.png')}
+                source={require('../images/technology.jpeg')}
               />
               <Text style={{alignSelf: 'center'}}>
                 Variedad de productos tecnológicos y electrónicos
