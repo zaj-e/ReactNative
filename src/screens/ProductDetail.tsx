@@ -17,6 +17,7 @@ import {useRelatedProducts} from '../hooks/useRelatedProducts';
 import {loadSameModelOtherStores} from '../api/productService';
 import {StackNavigationProps} from '../navigation/StackNavigation';
 import {IProduct} from '../interfaces/product';
+import { PriceHistory } from '../components/PriceHistory';
 
 interface ProductDetailProps
   extends StackScreenProps<StackNavigationProps, 'ProductDetail'> {}
@@ -28,7 +29,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
   const product = route.params;
   const [compareProducts, setCompareProducts] = useState<IProduct[]>();
   const [isLoading, setIsLoading] = useState(true);
-  const {loadRelatedProducts, reachedBottom, relatedProducts} =
+  const {loadRelatedProducts, setReachedBottom, reachedBottom, relatedProducts} =
     useRelatedProducts(product, 6); // pasar probablemente a servicio
 
   const loadMore = () => {
@@ -38,6 +39,8 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
   };
 
   useEffect(() => {
+    setReachedBottom(false);
+    console.log("Product Detail rendered", product.product_name);
     (async () => {
       setIsLoading(true);
       let resp = await loadSameModelOtherStores(product);
@@ -72,9 +75,6 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
         <Icon name="notifications-outline" size={30} />
       </View>
 
-      <Text style={{marginLeft: 5, marginTop: 25, fontWeight: '500'}}>
-        Productos relacionados:
-      </Text>
       <View style={styles.relatedProductsContainer}>
         <Text style={{flex: 1, fontWeight: 'bold'}}>Tienda</Text>
         <Text style={{flex: 3, fontWeight: 'bold'}}>Producto</Text>
@@ -82,9 +82,9 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
       </View>
 
       {!isLoading ? (
-        compareProducts!.map(item => (
+        compareProducts!.map((item, index) => (
           <SameProductDiferentStore
-            key={item.model_store_unique_identifier}
+            key={item.model_store_unique_identifier + index}
             item={item}
           />
         ))
@@ -102,6 +102,16 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
         </View>
       )}
 
+      <Text style={{marginLeft: 5, marginTop: 25, fontWeight: '500'}}>
+        Historial de precios:
+      </Text>
+      <View style={{marginTop: 15}}>
+        <PriceHistory priceHistory={product.price_history}/>
+      </View>
+
+      <Text style={{marginLeft: 5, marginTop: 25, fontWeight: '500'}}>
+        Productos relacionados:
+      </Text>
       <View style={{marginTop: 15}}>
         {relatedProducts ? (
           <HorizontalScrollList

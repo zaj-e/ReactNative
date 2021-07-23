@@ -15,7 +15,7 @@ export const HorizontalScrollList: React.FC<HorizontalScrollList> = ({products, 
     <FlatList
       data={products}
       renderItem={({ item, index }) => <ProductItem item={item} />}
-      keyExtractor={item => item.model_store_unique_identifier}
+      keyExtractor={(item, index) => item.model_store_unique_identifier + index}
       horizontal={true}
       showsHorizontalScrollIndicator={false}
           ListFooterComponent={() =>

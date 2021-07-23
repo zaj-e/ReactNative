@@ -14,7 +14,7 @@ export type StackNavigationProps = {
 const Stack = createStackNavigator();
 
 export const StackNavigation: React.FC<StackNavigationProps> = ({}) => {
-  const {authState, signIn, checkIsLoggedIn} = useContext(AuthContext);
+  const {authState, signIn, logout, checkIsLoggedIn} = useContext(AuthContext);
 
   useEffect(() => {
     checkIsLoggedIn();
@@ -41,8 +41,7 @@ export const StackNavigation: React.FC<StackNavigationProps> = ({}) => {
           headerRight: () =>
             !authState.isLoggedIn ? (
               <Button onPress={signIn} title="Iniciar sesión" color="#0096FF" />
-            ) : // <Button onPress={logout} title="Cerrar sesión" color="#0096FF" />
-            null,
+             ) : (<Button onPress={logout} title="Cerrar sesión" color="#0096FF" />),
           headerLeftContainerStyle: {marginLeft: 15},
           headerLeft: () => {
             return authState.userImage ? (

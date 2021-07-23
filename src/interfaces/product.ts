@@ -7,7 +7,7 @@ export interface IProduct {
     category_group:                string;
     model:                         string;
     model_store_unique_identifier: string;
-    price_history:                 PriceHistory[];
+    price_history:                 IPriceHistory[];
     product_description:           string;
     product_detail:                string;
     product_discount:              string;
@@ -18,7 +18,8 @@ export interface IProduct {
     sub_category:                  string;
 }
 
-export interface PriceHistory {
+export interface IPriceHistory {
     fecha: string;
     price: string;
+    priceRender: number;
 }

@@ -26,6 +26,7 @@ interface AuthContextProps {
   authState: AuthState;
   signIn: () => void;
   checkIsLoggedIn: () => void;
+  logout: () => void;
 }
 
 export const AuthContext = createContext({} as AuthContextProps);
@@ -65,11 +66,22 @@ export const AuthProvider = ({children}: any) => {
     }
   }
 
+  const logout = async () => {
+    try {     
+      await GoogleSignin.revokeAccess();
+      await GoogleSignin.signOut();
+      dispatch({type: 'logout'});
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <AuthContext.Provider
       value={{
         authState,
         signIn,
+        logout,
         checkIsLoggedIn
       }}>
       {children}

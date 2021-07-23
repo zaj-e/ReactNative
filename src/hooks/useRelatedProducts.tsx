@@ -4,10 +4,11 @@ import {IProduct} from '../interfaces/product';
 import {prefix} from '../common/contants';
 
 let lastChild: string = '';
-let reachedBottom = false;
+// let reachedBottom = false;
 
 export const useRelatedProducts = (product: IProduct, limit: number) => {
   const [relatedProducts, setRelatedProducts] = useState<IProduct[]>([]);
+  const [reachedBottom, setReachedBottom] = useState<boolean>(false);
 
   const loadRelatedProducts = (loadMore?: boolean) => {
     const ref = database().ref(
@@ -39,7 +40,7 @@ export const useRelatedProducts = (product: IProduct, limit: number) => {
     const relatedProductsFetched: IProduct[] = [];
     snapshot.forEach((data: any): any => {
       if (snapshot.numChildren() !== limit) {
-        reachedBottom = true;
+        setReachedBottom(true);
       }
       lastChild = data.val().pricekey;
       relatedProductsFetched.push(data.val());
@@ -54,6 +55,7 @@ export const useRelatedProducts = (product: IProduct, limit: number) => {
   }, []);
 
   return {
+    setReachedBottom,
     reachedBottom,
     relatedProducts,
     loadRelatedProducts,
