@@ -29,7 +29,7 @@ export const useProducts = () => {
 
     const response = await Promise.all([laptopsPromise, LEDSPromise]);
 
-    const laptops = response[0].val();
+        const laptops = response[0].val();
     const LEDS = response[1].val();
 
     let products = {...laptops, ...LEDS}

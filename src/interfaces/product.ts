@@ -23,3 +23,12 @@ export interface IPriceHistory {
     price: string;
     priceRender: number;
 }
+
+export interface IFavoriteProduct {
+    store?: string;
+    category_group?: string;
+    category?: string;
+    sub_category?: string;
+    model?: string;
+  }
+  

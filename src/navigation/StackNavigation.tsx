@@ -2,6 +2,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import React, {useContext, useEffect} from 'react';
 import {Button, Image, Platform, StyleSheet} from 'react-native';
 import {AuthContext} from '../context/AuthContext';
+import withPreventDoubleClick from '../hoc/withPreventDoubleClick';
 import {IProduct} from '../interfaces/product';
 import {HomeScreen} from '../screens/HomeScreen';
 import {ProductDetail} from '../screens/ProductDetail';
@@ -13,11 +14,13 @@ export type StackNavigationProps = {
 
 const Stack = createStackNavigator();
 
+const ButtonDebounce: any = withPreventDoubleClick(Button)
+
 export const StackNavigation: React.FC<StackNavigationProps> = ({}) => {
   const {authState, signIn, logout, checkIsLoggedIn} = useContext(AuthContext);
 
   useEffect(() => {
-    checkIsLoggedIn();
+    checkIsLoggedIn(null);
   }, []);
 
   return (
@@ -28,7 +31,7 @@ export const StackNavigation: React.FC<StackNavigationProps> = ({}) => {
           textAlign: 'center',
           color: 'orange',
           fontWeight: 'bold',
-          marginRight: Platform.OS === 'android' && authState.isLoggedIn ? 50 : 0
+          // marginRight: Platform.OS === 'android' && authState.isLoggedIn ? 10 : 0
         },
         cardStyle: {
           backgroundColor: 'white',
@@ -40,8 +43,8 @@ export const StackNavigation: React.FC<StackNavigationProps> = ({}) => {
           headerRightContainerStyle: {marginRight: 15},
           headerRight: () =>
             !authState.isLoggedIn ? (
-              <Button onPress={signIn} title="Iniciar sesión" color="#0096FF" />
-             ) : (<Button onPress={logout} title="Cerrar sesión" color="#0096FF" />),
+              <ButtonDebounce onPress={signIn} title="Iniciar sesión" color="#0096FF"></ButtonDebounce>
+             ) : (<ButtonDebounce onPress={logout} title="Cerrar sesión" color="#0096FF"></ButtonDebounce>),
           headerLeftContainerStyle: {marginLeft: 15},
           headerLeft: () => {
             return authState.userImage ? (

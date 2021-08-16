@@ -22,7 +22,7 @@ export const PriceHistory: React.FC<PriceHistoryProps> = ({priceHistory}) => {
         <VictoryChart width={screenWidth * 0.9} theme={VictoryTheme.material}>
           <VictoryBar
             domainPadding={{x: 15}}
-            style={{data: {fill: '#c43a31'}}}
+            style={{data: {fill: '#FFA500'}}}
             alignment="middle"
             data={priceHistory}
             x="fecha"
