@@ -50,7 +50,7 @@ export const loadFavProducts = async (user: AuthState) => {
     user.favoriteProducts.map((fp, index) =>
       database()
         .ref(
-          `${prefix}products/${fp.category_group}/${fp.category}/${fp.sub_category}/${fp.store}_${fp.model}`,
+          `${prefix}products/${fp.category_group}/${fp.category}/${fp.sub_category}/${fp.model_store_unique_identifier}`,
         )
         .once('value'),
     ),
@@ -63,10 +63,10 @@ export const loadFavProducts = async (user: AuthState) => {
 
 export const loadVisProducts = async (user: AuthState) => {
   const responses: any[] = await Promise.all(
-    user.visitedProducts.map((fp, index) =>
-      database()
+    user.visitedProducts.map(async (fp, index) =>
+      await database()
         .ref(
-          `${prefix}products/${fp.category_group}/${fp.category}/${fp.sub_category}/${fp.store}_${fp.model}`,
+          `${prefix}products/${fp.category_group}/${fp.category}/${fp.sub_category}/${fp.model_store_unique_identifier}`,
         )
         .once('value'),
     ),
@@ -83,7 +83,7 @@ export const verifyProductIsFavorite = async (
 ) => {
   let productIsFavorite = false;
   productIsFavorite = user.favoriteProducts.some(
-    fproduct => fproduct.store + '_' + fproduct.model === product.store + '_' + product.model,
+    fproduct => fproduct.model_store_unique_identifier === product.model_store_unique_identifier,
   );
 
   return productIsFavorite;

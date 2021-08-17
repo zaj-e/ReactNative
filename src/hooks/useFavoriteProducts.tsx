@@ -1,8 +1,8 @@
-import React, {useContext, useEffect, useState} from 'react';
-import database, {FirebaseDatabaseTypes} from '@react-native-firebase/database';
-import {IProduct} from '../interfaces/product';
-import {prefix} from '../common/contants';
-import {AuthContext, AuthState} from '../context/AuthContext';
+import database from '@react-native-firebase/database';
+import { useEffect, useState } from 'react';
+import { prefix } from '../common/contants';
+import { AuthState } from '../context/AuthContext';
+import { IProduct } from '../interfaces/product';
 
 export const useFavoriteProducts = (user: AuthState) => {
   const [favoriteProducts, setFavoriteProducts] = useState<IProduct[]>([]); 
@@ -12,7 +12,7 @@ export const useFavoriteProducts = (user: AuthState) => {
       user.favoriteProducts.map(fp => {
         database()
           .ref(
-            `${prefix}products/${fp.category_group}/${fp.category}/${fp.sub_category}/${fp.store}_${fp.model}`,
+            `${prefix}products/${fp.category_group}/${fp.category}/${fp.sub_category}/${fp.model_store_unique_identifier}`,
           )
           .once('value');
       }),

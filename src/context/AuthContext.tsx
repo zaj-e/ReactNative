@@ -182,8 +182,8 @@ export const AuthProvider = ({children}: any) => {
 
     const productIndex = authState.favoriteProducts.findIndex(
       fproduct =>
-        fproduct.store + '_' + fproduct.model ===
-        product.store + '_' + product.model,
+        fproduct.model_store_unique_identifier ===
+        product.model_store_unique_identifier,
     );
 
     const userCopy = {...authState};
@@ -193,8 +193,7 @@ export const AuthProvider = ({children}: any) => {
       : userCopy.favoriteProducts.push({
           category: product.category,
           category_group: product.category_group,
-          model: product.model,
-          store: product.store,
+          model_store_unique_identifier: product.model_store_unique_identifier,
           sub_category: product.sub_category,
         });
 
@@ -203,7 +202,7 @@ export const AuthProvider = ({children}: any) => {
     await Promise.all(
       userCopy.favoriteProducts.map(fp => {
         ref.update({
-          [`${fp.store}_${fp.model}`]: fp,
+          [`${fp.model_store_unique_identifier}`]: fp,
         });
       }),
     );
@@ -219,21 +218,19 @@ export const AuthProvider = ({children}: any) => {
 
     const exists = authState.visitedProducts.some(
       vproduct =>
-        vproduct.store + '_' + vproduct.model ===
-        product.store + '_' + product.model,
+        vproduct.model_store_unique_identifier == product.model_store_unique_identifier,
     );
 
     if (!exists) {
       const newProduct: IFavoriteProduct = {
         category: product.category,
         category_group: product.category_group,
-        model: product.model,
-        store: product.store,
+        model_store_unique_identifier: product.model_store_unique_identifier,
         sub_category: product.sub_category,
       };
 
       await ref.update({
-        [`${newProduct.store}_${newProduct.model}`]: newProduct,
+        [`${newProduct.model_store_unique_identifier}`]: newProduct,
       });
 
       dispatch({type: 'addVisited', payload: newProduct});
@@ -250,8 +247,8 @@ export const AuthProvider = ({children}: any) => {
 
     userCopy.visitedProducts = userCopy.visitedProducts.filter(
       vproduct =>
-        vproduct.store + '_' + vproduct.model !==
-        product.store + '_' + product.model,
+        vproduct.model_store_unique_identifier !==
+        product.model_store_unique_identifier,
     );
 
     await ref.remove();
@@ -259,7 +256,7 @@ export const AuthProvider = ({children}: any) => {
     await Promise.all(
       userCopy.visitedProducts.map(fp => {
         ref.update({
-          [`${fp.store}_${fp.model}`]: fp,
+          [`${fp.model_store_unique_identifier}`]: fp,
         });
       }),
     );
