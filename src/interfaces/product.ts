@@ -17,6 +17,11 @@ export interface IProduct {
   product_price: string;
   store: string;
   sub_category: string;
+  product_price_key: string; // for filters
+  product_name_key: string;
+  brand_key: string;
+  category_key: string;
+  sub_category_key: string;
 }
 
 export interface IPriceHistory {
@@ -31,3 +36,5 @@ export interface IFavoriteProduct {
   category?: string;
   sub_category?: string;
 }
+
+export type Filter = 'product_name_key' | 'brand_key' | 'sub_category_key' | 'product_price_key';

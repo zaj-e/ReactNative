@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {
   Dimensions,
@@ -7,7 +8,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import withPreventDoubleClick from '../hoc/withPreventDoubleClick';
 
 interface ImageContainerProps {
   data: {
@@ -19,10 +19,11 @@ interface ImageContainerProps {
   setTitle: any;
   setGroupCategoryTitle: any;
   setCategoryTitle: any;
+  groupCategoryTitle: string;
+  categoryTitle: string;
 }
 
 const screenWidth = Dimensions.get('screen').width;
-const ButtonDebounce: any = withPreventDoubleClick(TouchableOpacity, 0);
 
 export const ImageContainer: React.FC<ImageContainerProps> = ({
   data: {text, urlImg, identifier},
@@ -30,22 +31,34 @@ export const ImageContainer: React.FC<ImageContainerProps> = ({
   setTitle,
   setGroupCategoryTitle,
   setCategoryTitle,
+  groupCategoryTitle,
+  categoryTitle,
 }) => {
-  // const navigation = useNavigation();
+  const navigation = useNavigation();
 
   return (
-    <ButtonDebounce
+    <TouchableOpacity
       onPress={() => {
-        setTitle((title: number) => (title += 1));
-        setGroupCategoryTitle((val: any) => title == 1 ? (val = identifier) : val);
-        setCategoryTitle((val: any) => title == 2 ? (val = identifier) : val);
+        if (title == 3) {
+          navigation.navigate('Comparizy', {
+            url: `/products/${groupCategoryTitle.toLocaleLowerCase()}/${categoryTitle.toLocaleLowerCase()}/${text.toLocaleLowerCase()}`,
+          });
+        } else {
+          setTitle((title: number) => title + 1);
+          setGroupCategoryTitle((val: any) =>
+            title == 1 ? (val = identifier) : val,
+          );
+          setCategoryTitle((val: any) =>
+            title == 2 ? (val = identifier) : val,
+          );
+        }
       }}>
       <View style={styles.topCardContainer}>
         <Image source={{uri: urlImg}} style={styles.imageProduct} />
         <View style={styles.overLay} />
         <Text style={styles.textFloat}>{text}</Text>
       </View>
-    </ButtonDebounce>
+    </TouchableOpacity>
   );
 };
 

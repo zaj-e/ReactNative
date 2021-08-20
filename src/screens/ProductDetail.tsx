@@ -31,7 +31,7 @@ import {ProductItem} from '../components/ProductItem';
 const ButtonDebounce: any = withPreventDoubleClick(TouchableOpacity);
 const fs = RNFetchBlob.fs;
 interface ProductDetailProps
-  extends StackScreenProps<StackNavigationProps, 'ProductDetail'> {}
+  extends StackScreenProps<StackNavigationProps['ProductDetail'], 'ProductDetail'> {}
 
 export const ProductDetail: React.FC<ProductDetailProps> = ({
   navigation,

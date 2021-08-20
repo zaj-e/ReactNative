@@ -1,25 +1,23 @@
-import {useFocusEffect} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import React, {useCallback, useEffect, useState} from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Dimensions,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
-import {GenericGridList} from '../components/GenericGridList';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { GenericGridList } from '../components/GenericGridList';
 import {
   getCategories,
   getGroupCategories,
-  getSubCategories,
+  getSubCategories
 } from '../utils/getData';
-import withPreventDoubleClick from '../hoc/withPreventDoubleClick';
 
 interface CartegoriesScreenProps {}
 
 const screenWidth = Dimensions.get('screen').width;
-const ButtonDebounce: any = withPreventDoubleClick(TouchableOpacity, 100);
 
 export const CartegoriesScreen: React.FC<CartegoriesScreenProps> = ({}) => {
   const [items, setItems] = useState(getGroupCategories());
@@ -39,7 +37,6 @@ export const CartegoriesScreen: React.FC<CartegoriesScreenProps> = ({}) => {
   };
 
   const manageDisplay = () => {
-    console.log('TITLE', title);
     switch (title) {
       case 1:
         setItems(getGroupCategories());
@@ -67,9 +64,9 @@ export const CartegoriesScreen: React.FC<CartegoriesScreenProps> = ({}) => {
     <View>
       <View style={{flexDirection: 'row'}}>
         {title > 1 && (
-          <ButtonDebounce
+          <TouchableOpacity
             onPress={() => {
-              setTitle((title: number) => (title -= 1));
+              setTitle((title: number) => title - 1);
             }}>
             <Icon
               name="arrow-back-outline"
@@ -80,7 +77,7 @@ export const CartegoriesScreen: React.FC<CartegoriesScreenProps> = ({}) => {
               }}
               size={30}
             />
-          </ButtonDebounce>
+          </TouchableOpacity>
         )}
         <Text
           style={[
@@ -97,6 +94,8 @@ export const CartegoriesScreen: React.FC<CartegoriesScreenProps> = ({}) => {
         setTitle={setTitle}
         setGroupCategoryTitle={setGroupCategoryTitle}
         setCategoryTitle={setCategoryTitle}
+        groupCategoryTitle={groupCategoryTitle}
+        categoryTitle={categoryTitle}
       />
     </View>
   );

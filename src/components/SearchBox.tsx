@@ -3,14 +3,12 @@ import {StyleSheet, TextInput, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-interface SearchBoxProps {}
+interface SearchBoxProps {
+  onPress: (filterValue: string) => void;
+}
 
-export const SearchBox: React.FC<SearchBoxProps> = ({}) => {
+export const SearchBox: React.FC<SearchBoxProps> = ({onPress}) => {
   const [search, setSearch] = useState<string>('');
-
-  const searchProduct = () => {
-    console.log('Touched', search);
-  };
 
   return (
     <View style={styles.containerStyle}>
@@ -21,7 +19,7 @@ export const SearchBox: React.FC<SearchBoxProps> = ({}) => {
         placeholder="Buscar Productos"
       />
       <View style={styles.searchIcon}>
-        <TouchableOpacity onPress={searchProduct}>
+        <TouchableOpacity onPress={() => onPress(search)}>
           <Icon name="search-outline" size={30} color="#C1C1C1" />
         </TouchableOpacity>
       </View>

@@ -38,8 +38,8 @@ export const authReducer = (
     case 'addVisited':
       const exists = state.visitedProducts.some(
         vproduct =>
-          vproduct.store + '_' + vproduct.model ===
-          action.payload.store + '_' + action.payload.model,
+          vproduct.model_store_unique_identifier ===
+          action.payload.model_store_unique_identifier,
       );
       console.log(exists ? 'Existe' : 'No Existe');
       if (!exists) {

@@ -1,4 +1,4 @@
-export const prefix = '/comparizy-c73ab-default-rtdb/';
+export const prefix = '/';
 export const groupCategories = {
   TECNOLOGIA: 'tecnologia',
   ELECTROHOGAR: 'electrohogar',

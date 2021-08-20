@@ -14,7 +14,6 @@ export const getGroupCategories = (): any => {
 };
 
 export const getCategories = (groupCategory: string): any => {
-  console.log("GROUP", groupCategory)
   return Object.entries(categories)
     .map(([key, value]) => (categoriesData as any)[key])
     .filter(cat => {
@@ -23,7 +22,6 @@ export const getCategories = (groupCategory: string): any => {
 };
 
 export const getSubCategories = (category: string): any => {
-  console.log("CATEGORY", category)
     return Object.entries(subCategories)
     .map(([key, value]) => (subCategoriesData as any)[key])
     .filter(subCat => {

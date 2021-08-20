@@ -4,12 +4,12 @@ import {Button, Image, Platform, StyleSheet} from 'react-native';
 import {AuthContext} from '../context/AuthContext';
 import withPreventDoubleClick from '../hoc/withPreventDoubleClick';
 import {IProduct} from '../interfaces/product';
-import {HomeScreen} from '../screens/HomeScreen';
+import {Comparizy} from '../screens/HomeScreen';
 import {ProductDetail} from '../screens/ProductDetail';
 
 export type StackNavigationProps = {
-  HomeScreen: undefined;
-  ProductDetail: IProduct;
+  Comparizy: Record<string, { url: string }>;
+  ProductDetail: Record<string, IProduct>;
 };
 
 const Stack = createStackNavigator();
@@ -60,7 +60,7 @@ export const StackNavigation: React.FC<StackNavigationProps> = ({}) => {
             );
           },
         }}
-        component={HomeScreen}
+        component={Comparizy}
       />
       <Stack.Screen name="ProductDetail" component={ProductDetail} />
     </Stack.Navigator>

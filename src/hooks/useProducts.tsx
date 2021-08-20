@@ -25,9 +25,5 @@ export const useProducts = () => {
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    getProducts();
-  }, []);
-
-  return {products, isLoading};
+  return {products, setProducts, isLoading, getProducts};
 };

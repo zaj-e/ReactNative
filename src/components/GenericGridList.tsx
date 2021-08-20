@@ -12,6 +12,8 @@ interface GenericGridListProps {
   setTitle: any;
   setGroupCategoryTitle: any;
   setCategoryTitle: any;
+  groupCategoryTitle: string;
+  categoryTitle: string;
 }
 
 export const GenericGridList: React.FC<GenericGridListProps> = ({
@@ -20,6 +22,8 @@ export const GenericGridList: React.FC<GenericGridListProps> = ({
   setTitle,
   setGroupCategoryTitle,
   setCategoryTitle,
+  groupCategoryTitle,
+  categoryTitle,
 }) => {
   return (
     <FlatList
@@ -31,6 +35,8 @@ export const GenericGridList: React.FC<GenericGridListProps> = ({
           setTitle={setTitle}
           setGroupCategoryTitle={setGroupCategoryTitle}
           setCategoryTitle={setCategoryTitle}
+          groupCategoryTitle={groupCategoryTitle}
+          categoryTitle={categoryTitle}
         />
       )}
       keyExtractor={item => item.urlImg!}

@@ -22,6 +22,7 @@ export const ScrollList: React.FC<ScrollListProps> = ({
   hasDeleteButton = false,
   typeFilter
 }) => {
+  console.log("PRODUCTS", products);
   return (
     <FlatList
       data={products}

@@ -58,7 +58,7 @@ export const TabNavigator = () => {
         component={StackNavigation}
         listeners={({navigation}) => ({
           tabPress: () => {
-            navigation.navigate('Comparizy');
+            navigation.navigate('Comparizy', {url: undefined});
           },
         })}
       />
