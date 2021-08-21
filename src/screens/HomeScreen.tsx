@@ -304,7 +304,7 @@ export const Comparizy: React.FC<ComparizyProps> = ({route}) => {
             {products && products.length > 0 ? (
               <View style={{marginTop: url || filterValue == '' ? 20 : 0}}>
                 <GridListProduct
-                  isGrid={isGrid}
+                  isGrid={true}
                   products={products}
                   loadMore={loadMore}
                   reachedBottom={
