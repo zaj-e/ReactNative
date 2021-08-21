@@ -37,4 +37,8 @@ export interface IFavoriteProduct {
   sub_category?: string;
 }
 
+export interface INotificationProduct extends IFavoriteProduct {
+  last_date: string;
+}
+
 export type Filter = 'product_name_key' | 'brand_key' | 'sub_category_key' | 'pricekey';

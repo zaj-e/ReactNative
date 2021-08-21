@@ -15,6 +15,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import {
   loadSameModelOtherStores,
   verifyProductIsFavorite,
+  verityProductIsNotified,
 } from '../api/productService';
 import {ScrollList} from '../components/ScrollList';
 import {PriceHistory} from '../components/PriceHistory';
@@ -37,10 +38,12 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
   navigation,
   route,
 }) => {
-  const product = route.params;
+  const product = route.params.product;
+  const deleteNotification = route.params.deleteNotification;
   const [compareProducts, setCompareProducts] = useState<IProduct[]>();
   const [isLoading, setIsLoading] = useState(true);
   const [productIsFavorite, setProductIsFavorite] = useState(false);
+  const [productIsNotified, setProductIsNotified] = useState(false);
   const [showConfirmLogin, setShowConfirmLogin] = useState(false);
   const [confirmLoginText, setConfirmLoginText] = useState('');
   const {
@@ -49,12 +52,15 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
     reachedBottom,
     relatedProducts,
   } = useRelatedProducts(product, 6); // pasar probablemente a servicio
-  const {authState, changeFavoriteProduct, addVisitedProduct, signIn} =
+  const {authState, changeFavoriteProduct, changeNotificaionProduct, deleteNotificationProduct, addVisitedProduct, signIn} =
     useContext(AuthContext);
 
   useFocusEffect(
     useCallback(() => {
       console.log('focus', product.product_name);
+      deleteNotification && (async () => {
+        await deleteNotificationProduct(product)
+      })();
       initializeComponent();
     }, [product]),
   );
@@ -72,6 +78,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
     let resp = await loadSameModelOtherStores(product);
     setCompareProducts(resp);
     setProductIsFavorite(await verifyProductIsFavorite(authState, product));
+    !deleteNotification && setProductIsNotified(await verityProductIsNotified(authState, product));
     setIsLoading(false);
   };
 
@@ -89,10 +96,11 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
 
   const validatePressNotification = async () => {
     if (authState.isLoggedIn) {
-      console.log('IMPLEMENTE NOTIFICATIONS');
+      await changeNotificaionProduct(product);
+      setProductIsNotified(!productIsNotified);
     } else {
       setConfirmLoginText(
-        'Necesitas iniciar sesión para activar la opción "Notificaciones"',
+        'Necesitas iniciar sesión para activar la opción "Notificación"',
       );
       setShowConfirmLogin(true);
     }
@@ -221,7 +229,12 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
           onPress={async () => {
             await validatePressNotification();
           }}>
-          <Icon name="notifications-outline" size={30} />
+            {!productIsNotified ?(
+              <Icon name="notifications-outline" style={{color: 'black'}} size={30} />
+            ) : (
+              <Icon name="notifications" style={{color: '#FFC300'}} size={30} />
+            )}
+          
         </ButtonDebounce>
       </View>
 

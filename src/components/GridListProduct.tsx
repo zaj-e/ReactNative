@@ -7,6 +7,7 @@ interface GridListProductProps {
   isGrid: boolean;
   products: IProduct[];
   reachedBottom: boolean;
+  forNotificationDeletetion?: boolean;
   loadMore: () => void;
 }
 
@@ -14,6 +15,7 @@ export const GridListProduct: React.FC<GridListProductProps> = ({
   isGrid,
   products,
   reachedBottom,
+  forNotificationDeletetion,
   loadMore,
 }) => {
   return (
@@ -22,7 +24,12 @@ export const GridListProduct: React.FC<GridListProductProps> = ({
         <FlatList
           key={'_'}
           data={products}
-          renderItem={({item, index}) => <ProductItem item={item} />}
+          renderItem={({item, index}) => (
+            <ProductItem
+              item={item}
+              forNotificationDeletetion={forNotificationDeletetion}
+            />
+          )}
           keyExtractor={item => item.model_store_unique_identifier}
           numColumns={2}
           columnWrapperStyle={{
@@ -45,7 +52,12 @@ export const GridListProduct: React.FC<GridListProductProps> = ({
         <FlatList
           key={'#'}
           data={products}
-          renderItem={({item, index}) => <ProductItem item={item} />}
+          renderItem={({item, index}) => (
+            <ProductItem
+              item={item}
+              forNotificationDeletetion={forNotificationDeletetion}
+            />
+          )}
           keyExtractor={item => item.model_store_unique_identifier}
           numColumns={1}
           style={{alignSelf: 'center'}}

@@ -1,15 +1,18 @@
-import {createStackNavigator} from '@react-navigation/stack';
-import React, {useContext, useEffect} from 'react';
-import {Button, Image, Platform, StyleSheet} from 'react-native';
-import {AuthContext} from '../context/AuthContext';
+import { createStackNavigator } from '@react-navigation/stack';
+import React, { useContext, useEffect } from 'react';
+import { Button, Image, StyleSheet } from 'react-native';
+import { AuthContext } from '../context/AuthContext';
 import withPreventDoubleClick from '../hoc/withPreventDoubleClick';
-import {IProduct} from '../interfaces/product';
-import {Comparizy} from '../screens/HomeScreen';
-import {ProductDetail} from '../screens/ProductDetail';
+import { IProduct } from '../interfaces/product';
+import { Comparizy } from '../screens/HomeScreen';
+import { ProductDetail } from '../screens/ProductDetail';
+import { ProductNotificationScreen } from '../screens/ProductNotificationScreen';
+
 
 export type StackNavigationProps = {
   Comparizy: Record<string, { url: string }>;
-  ProductDetail: Record<string, IProduct>;
+  ProductDetail: Record<string, { product: IProduct, deleteNotification?: boolean }>;
+  ProductNotificationScreen: Record<string, { products: IProduct[] }>;
 };
 
 const Stack = createStackNavigator();
@@ -63,6 +66,7 @@ export const StackNavigation: React.FC<StackNavigationProps> = ({}) => {
         component={Comparizy}
       />
       <Stack.Screen name="ProductDetail" component={ProductDetail} />
+      <Stack.Screen name="ProductNotificationScreen" component={ProductNotificationScreen} />
     </Stack.Navigator>
   );
 };

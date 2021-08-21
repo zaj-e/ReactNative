@@ -1,7 +1,39 @@
 import database from '@react-native-firebase/database';
-import { prefix } from '../common/contants';
-import { AuthState } from '../context/AuthContext';
-import { IProduct } from '../interfaces/product';
+import {prefix} from '../common/contants';
+import {AuthState} from '../context/AuthContext';
+import {INotificationProduct, IProduct} from '../interfaces/product';
+
+export const validateShowNotificationSnackBar = async (notificationProducts: INotificationProduct[]) => {
+  let productsToShow: IProduct[] = [];
+  
+  const responses: any[] = await Promise.all(
+    notificationProducts.map((nf, index) =>
+      database()
+        .ref(
+          `${prefix}products/${nf.category_group}/${nf.category}/${nf.sub_category}/${nf.model_store_unique_identifier}`,
+        )
+        .once('value'),
+    ),
+  );
+
+  const productsN = responses.map(res => res.val()) as IProduct[];
+  
+  for (let i = 0; i < notificationProducts.length; i++) {
+    for (let j = 0 ; j < productsN.length; j++) {
+      if (notificationProducts[i].model_store_unique_identifier == productsN[j].model_store_unique_identifier) {
+        const index = productsN[j].price_history.findIndex(ph => ph.fecha === notificationProducts[i].last_date);
+        if (index !== 0)
+          productsN[j].price_history = productsN[j].price_history.splice(0, index - 1);
+      }
+    }
+  }
+  productsN.forEach(prod => {
+    const isDifferent = prod.price_history.some(ph => prod.price_history.some(ph2 => ph2.price !== ph.price));
+    isDifferent && productsToShow.push(prod);
+  })
+
+  return productsToShow;
+};
 
 export const loadSameModelOtherStores = async (product: IProduct) => {
   const ripleyProductPromise = database()
@@ -93,4 +125,18 @@ export const verifyProductIsFavorite = async (
   );
 
   return productIsFavorite;
+};
+
+export const verityProductIsNotified = async (
+  user: AuthState,
+  product: IProduct,
+) => {
+  let productIsNotified = false;
+  productIsNotified = user.notificationProducts.some(
+    nproduct =>
+      nproduct.model_store_unique_identifier ===
+      product.model_store_unique_identifier,
+  );
+
+  return productIsNotified;
 };

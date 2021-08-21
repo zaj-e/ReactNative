@@ -1,18 +1,18 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import { CommonActions, useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
   Image,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import Modal from 'react-native-modal';
-import {loadSameModelOtherStores} from '../api/productService';
+import { loadSameModelOtherStores } from '../api/productService';
 import withPreventDoubleClick from '../hoc/withPreventDoubleClick';
-import {IProduct} from '../interfaces/product';
-import {SameProductDiferentStore} from './SameProductDiferentStore';
+import { IProduct } from '../interfaces/product';
+import { SameProductDiferentStore } from './SameProductDiferentStore';
 
 const screenWidth = Dimensions.get('screen').width;
 const ButtonDebounce: any = withPreventDoubleClick(TouchableOpacity);
@@ -22,6 +22,7 @@ interface DetailProductModalProps {
   backdropOpacity: number;
   isVisible: boolean;
   item: IProduct;
+  forNotificationDeletetion?: boolean;
 }
 
 export const DetailProductModal: React.FC<DetailProductModalProps> = ({
@@ -29,9 +30,27 @@ export const DetailProductModal: React.FC<DetailProductModalProps> = ({
   backdropOpacity,
   isVisible,
   item,
+  forNotificationDeletetion,
 }) => {
   const [compareProducts, setCompareProducts] = useState<IProduct[]>();
+  
   const navigation = useNavigation();
+
+  const deleteNotificationAndNavigate = () => {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          { name: 'Comparizy' },
+          {
+            name: 'ProductDetail',
+            params: { product: item, deleteNotification: true },
+          },
+        ],
+      })
+    )
+  }
+
 
   useEffect(() => {
     (async () => {
@@ -87,7 +106,12 @@ export const DetailProductModal: React.FC<DetailProductModalProps> = ({
           ))}
 
           <TouchableOpacity
-            onPress={() => { navigation.navigate('ProductDetail', item); closeModal() } }>
+            onPress={() => {
+              forNotificationDeletetion
+                ? deleteNotificationAndNavigate()
+                : navigation.navigate('ProductDetail', { product: item })
+              closeModal();
+            }}>
             <Text style={styles.actionButton}>Ir a detalle</Text>
           </TouchableOpacity>
         </View>

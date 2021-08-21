@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, CommonActions} from '@react-navigation/native';
 import React, {useContext, useEffect, useState} from 'react';
 import {
   Dimensions,
@@ -20,6 +20,7 @@ interface ProductItemProps {
   productItemStyle?: 'horizontal' | 'vertical';
   hasDeleteButton?: boolean;
   typeFilter?: 'visited' | 'favorite';
+  forNotificationDeletetion?: boolean;
 }
 
 const screenWidth = Dimensions.get('screen').width;
@@ -30,6 +31,7 @@ export const ProductItem: React.FC<ProductItemProps> = ({
   productItemStyle = 'vertical',
   hasDeleteButton = false,
   typeFilter,
+  forNotificationDeletetion = false,
 }) => {
   const [showConfirmDeletionModal, setShowConfirmDeletionModal] =
     useState(false);
@@ -45,6 +47,21 @@ export const ProductItem: React.FC<ProductItemProps> = ({
       await deleteVisitedProduct(item);
     }
   };
+
+  const deleteNotificationAndNavigate = () => {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          { name: 'Comparizy' },
+          {
+            name: 'ProductDetail',
+            params: { product: item, deleteNotification: true },
+          },
+        ],
+      })
+    )
+  }
 
   const closeModal = () => {
     setShowConfirmDeletionModal(false);
@@ -73,6 +90,7 @@ export const ProductItem: React.FC<ProductItemProps> = ({
         backdropOpacity={0.5}
         closeModal={closeDetailProductModal}
         item={item}
+        forNotificationDeletetion={forNotificationDeletetion}
       />
     );
   };
@@ -82,7 +100,11 @@ export const ProductItem: React.FC<ProductItemProps> = ({
       {preview()}
       {renderModal()}
       <ButtonDebounce
-        onPress={() => navigation.navigate('ProductDetail', item)}>
+        onPress={() =>
+          forNotificationDeletetion
+            ? deleteNotificationAndNavigate()
+            : navigation.navigate('ProductDetail', { product: item })
+        }>
         <View
           style={[
             productItemStyle === 'vertical'

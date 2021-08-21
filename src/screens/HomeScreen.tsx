@@ -1,6 +1,6 @@
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {StackScreenProps} from '@react-navigation/stack';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Button,
@@ -11,10 +11,11 @@ import {
   StyleSheet,
   Text,
   View,
+  TouchableOpacity
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import Slider from 'rn-range-slider';
+import Snackbar from 'react-native-snackbar';
 import {GridListProduct} from '../components/GridListProduct';
 import {SearchBox} from '../components/SearchBox';
 import Label from '../components/Slider/Label';
@@ -27,6 +28,8 @@ import {useFilteredProducts} from '../hooks/useFilteredProducts';
 import {useFilteredProductsByCategory} from '../hooks/useFilteredProductsByCategory';
 import {useProducts} from '../hooks/useProducts';
 import {StackNavigationProps} from '../navigation/StackNavigation';
+import { AuthContext } from '../context/AuthContext';
+import { validateShowNotificationSnackBar } from '../api/productService';
 
 const screenHeight = Dimensions.get('screen').height;
 const screenWidth = Dimensions.get('screen').width;
@@ -50,6 +53,9 @@ export const Comparizy: React.FC<ComparizyProps> = ({route}) => {
   const renderRailSelected = useCallback(() => <RailSelected />, []);
   const renderLabel = useCallback(value => <Label text={value} />, []);
   const renderNotch = useCallback(() => <Notch />, []);
+
+  const {authState} = useContext(AuthContext);
+  const navigation = useNavigation();
 
   const {
     loadFilteredProducts,
@@ -106,6 +112,28 @@ export const Comparizy: React.FC<ComparizyProps> = ({route}) => {
     }
     setFilteredValue(filterValue);
   };
+
+  useEffect(() => {
+    (async () => {
+      if (authState && authState.notificationProducts.length > 0) {
+        let products = await validateShowNotificationSnackBar(authState.notificationProducts);
+        if (products.length > 0) {
+          Snackbar && Snackbar.show({
+            text: 'Algunos productos han cambiado de precio',
+            duration: Snackbar.LENGTH_LONG,
+            action: {
+              text: 'VER',
+              textColor: 'green',
+              onPress: () => navigation.navigate('ProductNotificationScreen', { products }),
+            },
+          });
+          console.log("There Are Products Wiith Price Changes!!");
+        } else {
+          console.log("Sad Face");
+        }
+      }
+    })();
+  }, [authState]);
 
   useFocusEffect(
     useCallback(() => {

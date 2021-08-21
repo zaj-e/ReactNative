@@ -4,7 +4,11 @@ import database from '@react-native-firebase/database';
 import React, {createContext, useReducer} from 'react';
 import {AsyncStorage} from 'react-native';
 import {prefix} from '../common/contants';
-import {IFavoriteProduct, IProduct} from '../interfaces/product';
+import {
+  IFavoriteProduct,
+  INotificationProduct,
+  IProduct,
+} from '../interfaces/product';
 import {authReducer} from './authReducer';
 
 GoogleSignin.configure({
@@ -20,6 +24,7 @@ export interface AuthState {
   userImage?: string;
   favoriteProducts: IFavoriteProduct[];
   visitedProducts: IFavoriteProduct[];
+  notificationProducts: INotificationProduct[];
 }
 
 export const authInitialState: AuthState = {
@@ -30,6 +35,7 @@ export const authInitialState: AuthState = {
   userImage: undefined,
   favoriteProducts: [],
   visitedProducts: [],
+  notificationProducts: [],
 };
 interface AuthContextProps {
   authState: AuthState;
@@ -37,7 +43,9 @@ interface AuthContextProps {
   checkIsLoggedIn: (action: any) => void;
   logout: () => void;
   changeFavoriteProduct: (product: IProduct) => Promise<void>;
+  changeNotificaionProduct: (product: IProduct) => Promise<void>;
   addVisitedProduct: (product: IProduct) => Promise<void>;
+  deleteNotificationProduct: (product: IProduct) => Promise<void>;
   deleteVisitedProduct: (product: IProduct) => Promise<void>;
 }
 
@@ -47,7 +55,7 @@ export const AuthProvider = ({children}: any) => {
   const [authState, dispatch] = useReducer(authReducer, authInitialState);
 
   const signIn = async (action: any) => {
-    console.log('signIn')
+    console.log('signIn');
     try {
       // Get the user token
       const {idToken} = await GoogleSignin.signIn();
@@ -67,6 +75,22 @@ export const AuthProvider = ({children}: any) => {
             : 'Usuario',
         })
         .then(() => console.log('Usuario creado'));
+
+      // Notification products populate
+
+      const notProducts = await database()
+        .ref(`${prefix}users/${user.user.uid}/notificationProducts`)
+        .once('value');
+
+      const notProductsArr = [];
+
+      const notProd2 = notProducts.val();
+
+      if (notProd2 !== null) {
+        for (let [key, value] of Object.entries(notProd2 as any)) {
+          notProductsArr.push(value);
+        }
+      }
 
       // Favorite products populate
 
@@ -104,7 +128,7 @@ export const AuthProvider = ({children}: any) => {
 
       dispatch({
         type: 'signIn',
-        payload: {user, favProductsArr, visProductsArr},
+        payload: {user, notProductsArr, favProductsArr, visProductsArr},
       });
     } catch (err) {
       console.log('ERRORSASO', err.message);
@@ -112,11 +136,27 @@ export const AuthProvider = ({children}: any) => {
   };
 
   const checkIsLoggedIn = async (action: any) => {
-    console.log('checkIsLoggedIn')
+    console.log('checkIsLoggedIn');
     try {
       const value = await AsyncStorage.getItem('user');
       if (value !== null) {
         const user = JSON.parse(value);
+
+        // Notification products populate
+
+        const notProducts = await database()
+          .ref(`${prefix}users/${user.user.uid}/notificationProducts`)
+          .once('value');
+
+        const notProductsArr = [];
+
+        const notProd2 = notProducts.val();
+
+        if (notProd2 !== null) {
+          for (let [key, value] of Object.entries(notProd2 as any)) {
+            notProductsArr.push(value);
+          }
+        }
 
         // Favorite products populate
 
@@ -154,7 +194,7 @@ export const AuthProvider = ({children}: any) => {
 
         dispatch({
           type: 'signIn',
-          payload: {user, favProductsArr, visProductsArr},
+          payload: {user, notProductsArr, favProductsArr, visProductsArr},
         });
       }
     } catch (error) {
@@ -173,12 +213,12 @@ export const AuthProvider = ({children}: any) => {
   };
 
   const changeFavoriteProduct = async (product: IProduct) => {
-    console.log('changeFavoriteProduct')
+    console.log('changeFavoriteProduct');
     const ref = database().ref(
       `${prefix}users/${authState.uid}/favoriteProducts`,
     );
 
-    console.log("PRoducts favorite", authState.favoriteProducts)
+    console.log('PRoducts favorite', authState.favoriteProducts);
 
     const productIndex = authState.favoriteProducts.findIndex(
       fproduct =>
@@ -210,15 +250,56 @@ export const AuthProvider = ({children}: any) => {
     dispatch({type: 'changeFavorite', payload: userCopy});
   };
 
+  const changeNotificaionProduct = async (product: IProduct) => {
+    console.log('changeNotificationProduct');
+    const ref = database().ref(
+      `${prefix}users/${authState.uid}/notificationProducts`,
+    );
+
+    console.log('PRoducts notificatio', authState.notificationProducts);
+
+    const productIndex = authState.notificationProducts.findIndex(
+      nproduct =>
+        nproduct.model_store_unique_identifier ===
+        product.model_store_unique_identifier,
+    );
+
+    const userCopy = {...authState};
+
+    productIndex !== -1
+      ? userCopy.notificationProducts.splice(productIndex, 1)
+      : userCopy.notificationProducts.push({
+          category: product.category,
+          category_group: product.category_group,
+          model_store_unique_identifier: product.model_store_unique_identifier,
+          sub_category: product.sub_category,
+          last_date:
+            product.price_history[product.price_history.length - 1].fecha,
+        });
+
+    await ref.remove();
+
+    await Promise.all(
+      userCopy.notificationProducts.map(np => {
+        ref.update({
+          [`${np.model_store_unique_identifier}`]: np,
+        });
+      }),
+    );
+
+    dispatch({type: 'changeNotification', payload: userCopy});
+  };
+
   const addVisitedProduct = async (product: IProduct) => {
-    console.log('addVisitedProduct')
+    console.log('addVisitedProduct');
     const ref = database().ref(
       `${prefix}users/${authState.uid}/visitedProducts`,
     );
 
     const exists = authState.visitedProducts.some(
       vproduct =>
-        vproduct.model_store_unique_identifier == product.model_store_unique_identifier,
+        vproduct.model_store_unique_identifier ==
+        product.model_store_unique_identifier,
     );
 
     if (!exists) {
@@ -237,8 +318,35 @@ export const AuthProvider = ({children}: any) => {
     }
   };
 
+  const deleteNotificationProduct = async (product: IProduct) => {
+    console.log('deleteNotificationProduct');
+    const ref = database().ref(
+      `${prefix}users/${authState.uid}/notificationProducts`,
+    );
+
+    const userCopy = {...authState};
+
+    userCopy.notificationProducts = userCopy.notificationProducts.filter(
+      nproduct =>
+      nproduct.model_store_unique_identifier !==
+        product.model_store_unique_identifier,
+    );
+
+    await ref.remove();
+
+    await Promise.all(
+      userCopy.notificationProducts.map(np => {
+        ref.update({
+          [`${np.model_store_unique_identifier}`]: np,
+        });
+      }),
+    );
+
+    dispatch({type: 'deleteNotificationProduct', payload: userCopy.notificationProducts});
+  }
+
   const deleteVisitedProduct = async (product: IProduct) => {
-    console.log('deleteVisitedProduct')
+    console.log('deleteVisitedProduct');
     const ref = database().ref(
       `${prefix}users/${authState.uid}/visitedProducts`,
     );
@@ -272,7 +380,9 @@ export const AuthProvider = ({children}: any) => {
         logout,
         checkIsLoggedIn,
         changeFavoriteProduct,
+        changeNotificaionProduct,
         addVisitedProduct,
+        deleteNotificationProduct,
         deleteVisitedProduct,
       }}>
       {children}
