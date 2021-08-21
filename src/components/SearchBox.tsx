@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import {StyleSheet, TextInput, View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useFocusEffect} from '@react-navigation/native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {StyleSheet, TextInput, View, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 interface SearchBoxProps {
@@ -9,6 +9,16 @@ interface SearchBoxProps {
 
 export const SearchBox: React.FC<SearchBoxProps> = ({onPress}) => {
   const [search, setSearch] = useState<string>('');
+
+  useFocusEffect(
+    useCallback(() => {
+      setSearch('');
+    }, []),
+  );
+
+  const clear = () => {
+    setSearch('');
+  };
 
   return (
     <View style={styles.containerStyle}>
@@ -19,12 +29,16 @@ export const SearchBox: React.FC<SearchBoxProps> = ({onPress}) => {
         placeholder="Buscar Productos"
       />
       <View style={styles.searchIcon}>
+        <TouchableOpacity onPress={clear}>
+          <Icon name="close-outline" size={30} color="#C1C1C1" />
+        </TouchableOpacity>
+
         <TouchableOpacity onPress={() => onPress(search)}>
           <Icon name="search-outline" size={30} color="#C1C1C1" />
         </TouchableOpacity>
       </View>
     </View>
-  );
+  );  
 };
 
 const styles = StyleSheet.create({
@@ -39,6 +53,9 @@ const styles = StyleSheet.create({
   },
   searchIcon: {
     position: 'absolute',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
     top: 4,
     right: 0,
     zIndex: 999,
