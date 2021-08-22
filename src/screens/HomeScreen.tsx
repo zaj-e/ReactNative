@@ -123,7 +123,7 @@ export const Comparizy: React.FC<ComparizyProps> = ({route}) => {
             duration: Snackbar.LENGTH_LONG,
             action: {
               text: 'VER',
-              textColor: 'green',
+              textColor: 'orange',
               onPress: () => navigation.navigate('ProductNotificationScreen', { products }),
             },
           });
