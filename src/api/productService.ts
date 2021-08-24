@@ -23,7 +23,7 @@ export const validateShowNotificationSnackBar = async (notificationProducts: INo
       if (notificationProducts[i].model_store_unique_identifier == productsN[j].model_store_unique_identifier) {
         const index = productsN[j].price_history.findIndex(ph => ph.fecha === notificationProducts[i].last_date);
         if (index !== 0)
-          productsN[j].price_history = productsN[j].price_history.splice(0, index - 1);
+          productsN[j].price_history.splice(0, index);
       }
     }
   }
