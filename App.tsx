@@ -1,15 +1,17 @@
-import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {View} from 'react-native';
-import {StackNavigation} from './src/navigation/StackNavigation';
+import 'react-native-gesture-handler';
+import { AuthProvider } from './src/context/AuthContext';
+import { TabNavigator } from './src/navigation/TabNavigator';
 
 interface AppProps {}
 
 export const App: React.FC<AppProps> = ({}) => {
   return (
     <NavigationContainer>
-      <StackNavigation />
+      <AuthProvider>
+        <TabNavigator />
+      </AuthProvider>
     </NavigationContainer>
   );
 };

@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "266199817839-oeld7o7ifqmadhokh96toocf2bfcp1da.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.comparizy",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
           "client_id": "266199817839-mdhi7nj8ehv8eri3lba2e7keevsmahio.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -28,8 +36,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "266199817839-mdhi7nj8ehv8eri3lba2e7keevsmahio.apps.googleusercontent.com",
+              "client_id": "266199817839-4ahpittlujpkibjb8viait853ebp2tji.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "266199817839-de69qtiremg6sgfjl3c5de0v7b656gfp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.comparizy"
+              }
             }
           ]
         }
