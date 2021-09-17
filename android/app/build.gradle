@@ -142,6 +142,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -159,10 +160,10 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file('your_key_name.keystore')
-            storePassword 'your_key_store_password'
-            keyAlias 'your_key_alias'
-            keyPassword 'your_key_file_alias_password'
+            storeFile file('my-release-key.keystore')
+            storePassword 'comparazy'
+            keyAlias 'my-key-alias'
+            keyPassword 'comparazy'
         }
     }
     buildTypes {
@@ -172,10 +173,9 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
-            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
 
@@ -198,6 +198,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'com.android.support:multidex:1.0.3'
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
