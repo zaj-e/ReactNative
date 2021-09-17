@@ -88,7 +88,7 @@ const filterMap = async (
                     .orderByChild(filterProp)
                     .startAt(lastChild.url[url][filterProp])
                     .endAt(high.toLocaleString() + '\uf8ff')
-                    .limitToFirst(limit)
+                    //.limitToFirst(limit)
                     .once('value');
                 }
              
@@ -98,8 +98,8 @@ const filterMap = async (
                     .ref(url)
                     .orderByChild(filterProp)
                     .startAt(lastChild.url[url][filterProp])
-                    .endAt(filter.toUpperCase() + '\uf8ff')
-                    .limitToFirst(limit)
+                    //.endAt(filter.toUpperCase() + '\uf8ff')
+                    //.limitToFirst(limit)
                     .once('value');
                 }
               }
@@ -118,15 +118,16 @@ const filterMap = async (
                 .orderByChild(filterProp)
                 .startAt(low.toLocaleString())
                 .endAt(high.toLocaleString() + '\uf8ff')
-                .limitToFirst(limit)
+                //.limitToFirst(limit)
                 .once('value');
               } else {
                 return await database()
                 .ref(url)
                 .orderByChild(filterProp)
-                .startAt(filter.toUpperCase()) // includes string
-                .endAt(filter.toUpperCase() + '\uf8ff')
-                .limitToFirst(limit)
+                .startAt("")
+                //.startAt(filter.toUpperCase()) // includes string
+                //.endAt(filter.toUpperCase() + '\uf8ff')
+                //.limitToFirst(limit)
                 .once('value');
               }
             } catch (error) {
