@@ -1,23 +1,34 @@
 import {useFocusEffect} from '@react-navigation/native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, { useCallback, useEffect, useState } from "react";
 import {StyleSheet, TextInput, View, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import {useNavigation} from '@react-navigation/native';
+
 interface SearchBoxProps {
   onPress: (filterValue: string) => void;
+  searchText: string | undefined;
 }
 
-export const SearchBox: React.FC<SearchBoxProps> = ({onPress}) => {
-  const [search, setSearch] = useState<string>('');
+export const SearchBox: React.FC<SearchBoxProps> = ({searchText, onPress}) => {
+  const [search, setSearch] = useState<string>();
+  const navigation = useNavigation();
+  // if (searchText !== undefined) {
+  //   setSearch(searchText);
+  // }
 
   useFocusEffect(
     useCallback(() => {
-      setSearch('');
-    }, []),
+      setSearch(searchText !== undefined ? searchText : '');
+    }, [searchText]),
   );
 
   const clear = () => {
     setSearch('');
+  };
+
+  const handlePressPicture = () => {
+    navigation.navigate('PictureScreen');
   };
 
   return (
@@ -36,9 +47,12 @@ export const SearchBox: React.FC<SearchBoxProps> = ({onPress}) => {
         <TouchableOpacity onPress={() => onPress(search)}>
           <Icon name="search-outline" size={30} color="#C1C1C1" />
         </TouchableOpacity>
+        <TouchableOpacity onPress={handlePressPicture}>
+          <Icon name="camera-outline" size={30} color="#C1C1C1" />
+        </TouchableOpacity>
       </View>
     </View>
-  );  
+  );
 };
 
 const styles = StyleSheet.create({
