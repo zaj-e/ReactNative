@@ -149,8 +149,11 @@ export const useFilteredProducts = (limit: number) => {
   const FilterElements = (word: string, filter: string) => {
     var word_filters = filter.split(' ');
     for (let word_filter of word_filters) {
-      if (word.toLowerCase().includes(word_filter.toLowerCase())) return true;
+      if (word.toLowerCase().includes(word_filter.toLowerCase()) == false) {
+        return false;
+      }
     }
+    return true;
   }
 
   const loadFilteredProducts = async (

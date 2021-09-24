@@ -16,7 +16,7 @@ interface ProductNotificationScreenProps
   > {}
 
 export const ProductNotificationScreen: React.FC<ProductNotificationScreenProps> =
-  ({route}) => {
+  ({route}) => { 
     let products: IProduct[] = [];
     products = route.params.products;
 

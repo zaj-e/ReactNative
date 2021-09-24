@@ -3,7 +3,7 @@ import {
   categoriesData,
   groupCategories,
   groupCategoriesData,
-  subCategories,
+  subCategories, 
   subCategoriesData,
 } from '../common/contants';
 

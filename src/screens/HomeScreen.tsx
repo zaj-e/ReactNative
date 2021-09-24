@@ -11,7 +11,9 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  ImageBackground,
+  Pressable
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Slider from 'rn-range-slider';
@@ -30,6 +32,7 @@ import {useProducts} from '../hooks/useProducts';
 import {StackNavigationProps} from '../navigation/StackNavigation';
 import { AuthContext } from '../context/AuthContext';
 import { validateShowNotificationSnackBar } from '../api/productService';
+import Swiper from 'react-native-swiper';
 
 const screenHeight = Dimensions.get('screen').height;
 const screenWidth = Dimensions.get('screen').width;
@@ -72,11 +75,22 @@ export const Comparizy: React.FC<ComparizyProps> = ({route}) => {
     setFilteredProductsCategory,
   } = useFilteredProductsByCategory(5);
   const uri = `https://img.freepik.com/vector-gratis/diseno-cartel-venta-halloween-oferta-70-descuento_1302-24185.jpg`;
+  var categoryGoal = "";
 
   const deleteUrl = () => {
     setGeneric(true);
     setFilteredValue(url!.split('/').pop()!);
   };
+
+  const GoTecno = () => {
+    categoryGoal = "tecnologia";
+    navigation.navigate('CategoriesScreen', {categoryGoal})
+  }
+
+  const GoElectro = () => {
+    categoryGoal = "electrohogar";
+    navigation.navigate('CategoriesScreen', {categoryGoal})
+  }
 
   const handleValueChange = useCallback((low, high) => {
     setLow(low);
@@ -230,7 +244,18 @@ export const Comparizy: React.FC<ComparizyProps> = ({route}) => {
           <View style={{marginHorizontal: 20}}>
             <View>
               <View style={styles.imageContainer}>
-                <Image source={{uri}} style={styles.posterImage} />
+                <Swiper loop autoplay>
+                  <ImageBackground source={require('../images/Tecnologico.png')} style={styles.posterImage}>
+                    <Pressable style={styles.bannerButton} onPress={GoTecno}>
+                      <Text style={styles.bannerButtonText}>Ir a Tecnologico</Text>
+                    </Pressable>
+                  </ImageBackground>
+                  <ImageBackground source={require('../images/Electrohogar.png')} style={styles.posterImage}>
+                    <Pressable style={styles.bannerButton} onPress={GoElectro}>
+                      <Text style={styles.bannerButtonText}>Ir a Electrohogar</Text>
+                    </Pressable>
+                  </ImageBackground>
+                </Swiper>
               </View>
               {/* Introduccion  */}
               <View>
@@ -388,11 +413,24 @@ export const Comparizy: React.FC<ComparizyProps> = ({route}) => {
 
 const styles = StyleSheet.create({
   imageContainer: {
-    marginTop: 10,
+    marginTop: 20,
     height: screenHeight * 0.3, // 30%
   },
   posterImage: {
-    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 380,
+    height: 180
+  },
+  bannerButton: {
+    backgroundColor: '#2880de',
+    borderRadius: 30,
+    padding: 12,
+    marginTop: 80
+  },
+  bannerButtonText: {
+    color: 'white',
+    fontSize: 14
   },
   mainTextIntro: {
     marginTop: 20,
