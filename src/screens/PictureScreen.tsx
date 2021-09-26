@@ -28,7 +28,7 @@ export const PictureScreenFc: React.FC<PictureScreenProps> = () => {
       type: 'image/jpg',
     });
 
-    fetch('http://20.201.53.182:80/predict', {
+    fetch('http://20.201.44.11:80/predict', {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'multipart/form-data',
