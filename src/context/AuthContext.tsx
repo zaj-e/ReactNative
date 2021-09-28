@@ -1,5 +1,5 @@
-import {GoogleSignin} from '@react-native-community/google-signin';
 import auth from '@react-native-firebase/auth';
+import {GoogleSignin} from '@react-native-community/google-signin';
 import database from '@react-native-firebase/database';
 import React, {createContext, useReducer} from 'react';
 import {AsyncStorage} from 'react-native';
@@ -328,7 +328,7 @@ export const AuthProvider = ({children}: any) => {
 
     userCopy.notificationProducts = userCopy.notificationProducts.filter(
       nproduct =>
-      nproduct.model_store_unique_identifier !==
+        nproduct.model_store_unique_identifier !==
         product.model_store_unique_identifier,
     );
 
@@ -342,8 +342,11 @@ export const AuthProvider = ({children}: any) => {
       }),
     );
 
-    dispatch({type: 'deleteNotificationProduct', payload: userCopy.notificationProducts});
-  }
+    dispatch({
+      type: 'deleteNotificationProduct',
+      payload: userCopy.notificationProducts,
+    });
+  };
 
   const deleteVisitedProduct = async (product: IProduct) => {
     console.log('deleteVisitedProduct');
