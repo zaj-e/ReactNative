@@ -1,3 +1,18 @@
+#From https://github.com/RenanRicoldi/AppDengue/blob/master/.gitignore
+node_modules
+android
+ios
+__tests__
+.buckconfig
+.eslintrc.js
+.flowconfig
+.prettierrc.js
+.wactchmanconfig
+babel.config.js
+metro.config.js
+.DS_Store
+
+
 # OSX
 #
 .DS_Store

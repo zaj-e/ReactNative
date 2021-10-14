@@ -5,7 +5,7 @@ import { IFavoriteProduct, INotificationProduct, IProduct } from '../interfaces/
 import {authInitialState, AuthState} from './AuthContext';
 
 type AuthAction = 
-  {type: 'signIn'; payload: any} | 
+  {type: 'signIn', payload: any} | 
   {type: 'logout'} |
   {type: 'changeFavorite', payload: AuthState} |
   {type: 'changeNotification', payload: AuthState} |

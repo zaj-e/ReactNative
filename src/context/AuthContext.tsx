@@ -139,7 +139,16 @@ export const AuthProvider = ({children}: any) => {
     console.log('checkIsLoggedIn');
     try {
       const value = await AsyncStorage.getItem('user');
-      if (value !== null) {
+      //Validamos que el valor del usuario esté correcto:
+      if (value === null ){
+        dispatch({type: 'logout'});
+        return;
+      }
+      if(value === ""){
+        dispatch({type: 'logout'});
+        return;
+      }
+      //Ahora parseamos y populamos las bases de datos:
         const user = JSON.parse(value);
 
         // Notification products populate
@@ -196,9 +205,10 @@ export const AuthProvider = ({children}: any) => {
           type: 'signIn',
           payload: {user, notProductsArr, favProductsArr, visProductsArr},
         });
-      }
+      
     } catch (error) {
       console.log('HII', error);
+      dispatch({type: 'logout'});
     }
   };
 
@@ -206,7 +216,9 @@ export const AuthProvider = ({children}: any) => {
     try {
       await GoogleSignin.revokeAccess();
       await GoogleSignin.signOut();
+      await AsyncStorage.removeItem('user');
       dispatch({type: 'logout'});
+      
     } catch (error) {
       console.log('CTM', error);
     }
