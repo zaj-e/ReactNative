@@ -66,6 +66,11 @@ export const TabNavigator = () => {
         name="CategoriesScreen"
         options={{title: 'Categorías'}}
         component={CartegoriesScreen}
+        listeners={({navigation}) => ({
+          tabPress: () => {
+            navigation.navigate('CategoriesScreen', {categoryGoal: ''});
+          },
+        })}
       />
       <BottomTab.Screen
         name="SearchHistoryScreen"

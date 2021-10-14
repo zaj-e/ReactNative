@@ -7,7 +7,7 @@ export const categories = {
   COMPUTADORAS: 'computadoras',
   TELEVISORES: 'televisores',
   COCINA: 'cocina',
-  LAVADO: 'lavado',
+  LAVADO: 'lavado', 
   REFRIGERACION: 'refrigeracion',
 };
 export const subCategories = {

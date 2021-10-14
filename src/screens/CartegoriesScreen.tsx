@@ -1,3 +1,4 @@
+import {StackScreenProps} from '@react-navigation/stack';
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
@@ -14,12 +15,16 @@ import {
   getGroupCategories,
   getSubCategories
 } from '../utils/getData';
+import {StackNavigationProps} from '../navigation/StackNavigation';
 
-interface CartegoriesScreenProps {}
+interface CartegoriesScreenProps extends StackScreenProps<
+StackNavigationProps['CategoriesScreen'],
+'Comparizy'
+> {}
 
 const screenWidth = Dimensions.get('screen').width;
 
-export const CartegoriesScreen: React.FC<CartegoriesScreenProps> = ({}) => {
+export const CartegoriesScreen: React.FC<CartegoriesScreenProps> = ({route}) => {
   const [items, setItems] = useState(getGroupCategories());
   const [groupCategoryTitle, setGroupCategoryTitle] = useState('');
   const [categoryTitle, setCategoryTitle] = useState('');
@@ -53,6 +58,10 @@ export const CartegoriesScreen: React.FC<CartegoriesScreenProps> = ({}) => {
   useFocusEffect(
     useCallback(() => {
       setTitle(1);
+      if (route.params.categoryGoal != "") {
+        setTitle(2);
+        setGroupCategoryTitle(route.params.categoryGoal);
+      }
     }, []),
   );
 

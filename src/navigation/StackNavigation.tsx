@@ -3,19 +3,18 @@ import React, {useContext, useEffect} from 'react';
 import {Button, Image, StyleSheet} from 'react-native';
 import {AuthContext} from '../context/AuthContext';
 import withPreventDoubleClick from '../hoc/withPreventDoubleClick';
-import {IProduct} from '../interfaces/product';
-import {Comparizy} from '../screens/HomeScreen';
-import {ProductDetail} from '../screens/ProductDetail';
-import {ProductNotificationScreen} from '../screens/ProductNotificationScreen';
-import {PictureScreenFc} from '../screens/PictureScreen';
+import { IProduct } from '../interfaces/product';
+import { Comparizy } from '../screens/HomeScreen';
+import { ProductDetail } from '../screens/ProductDetail';
+import { CartegoriesScreen } from '../screens/CartegoriesScreen';
+import { ProductNotificationScreen } from '../screens/ProductNotificationScreen';
+
 
 export type StackNavigationProps = {
-  Comparizy: Record<string, {url: string; prediction: string}>;
-  ProductDetail: Record<
-    string,
-    {product: IProduct; deleteNotification?: boolean}
-  >;
-  ProductNotificationScreen: Record<string, {products: IProduct[]}>;
+  Comparizy: Record<string, { url: string }>;
+  ProductDetail: Record<string, { product: IProduct, deleteNotification?: boolean }>;
+  ProductNotificationScreen: Record<string, { products: IProduct[] }>;
+  CategoriesScreen: Record<string, { categoryGoal: string }>;
 };
 
 const Stack = createStackNavigator();
@@ -79,12 +78,10 @@ export const StackNavigation: React.FC<StackNavigationProps> = ({}) => {
         component={Comparizy}
       />
 
-      <Stack.Screen name="PictureScreen" component={PictureScreenFc} />
+      {/* <Stack.Screen name="PictureScreen" component={PictureScreenFc} /> */}
       <Stack.Screen name="ProductDetail" component={ProductDetail} />
-      <Stack.Screen
-        name="ProductNotificationScreen"
-        component={ProductNotificationScreen}
-      />
+      <Stack.Screen name="CategoriesScreen" component={CartegoriesScreen} />
+      <Stack.Screen name="ProductNotificationScreen" component={ProductNotificationScreen} />
     </Stack.Navigator>
   );
 };
