@@ -147,13 +147,13 @@ export const useFilteredProducts = (limit: number) => {
   const [reachedBottom, setReachedBottom] = useState<boolean>(false);
 
   const FilterElements = (word: string, filter: string) => {
-    var word_filters = filter.split(' ');
+    var word_filters = filter.split(' '); // lavadora lg
     for (let word_filter of word_filters) {
-      if (word.toLowerCase().includes(word_filter.toLowerCase()) == false) {
-        return false;
+      if (word.toLowerCase().includes(word_filter.toLowerCase()) == true) {
+        return true;
       }
     }
-    return true;
+    return false;
   }
 
   const loadFilteredProducts = async (
@@ -210,9 +210,9 @@ export const useFilteredProducts = (limit: number) => {
 
           if (priceFloat >= low && priceFloat <= high) {
             if (
-              FilterElements(eachP.brand, filter) ||
               FilterElements(eachP.product_name, filter) ||
-              FilterElements(eachP.sub_category, filter)
+              FilterElements(eachP.brand, filter)
+              //FilterElements(eachP.sub_category, filter)
             ) {
               const exists = products.find(
                 prod =>
