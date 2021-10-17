@@ -149,11 +149,11 @@ export const useFilteredProducts = (limit: number) => {
   const FilterElements = (word: string, filter: string) => {
     var word_filters = filter.split(' '); // lavadora lg
     for (let word_filter of word_filters) {
-      if (word.toLowerCase().includes(word_filter.toLowerCase()) == true) {
-        return true;
+      if (word.toLowerCase().includes(word_filter.toLowerCase()) == false) {
+        return false;
       }
     }
-    return false;
+    return true;
   }
 
   const loadFilteredProducts = async (
@@ -211,8 +211,8 @@ export const useFilteredProducts = (limit: number) => {
           if (priceFloat >= low && priceFloat <= high) {
             if (
               FilterElements(eachP.product_name, filter) ||
-              FilterElements(eachP.brand, filter)
-              //FilterElements(eachP.sub_category, filter)
+              FilterElements(eachP.brand, filter) ||
+              FilterElements(eachP.sub_category, filter)
             ) {
               const exists = products.find(
                 prod =>
@@ -220,6 +220,7 @@ export const useFilteredProducts = (limit: number) => {
                   (data.val() as IProduct).model_store_unique_identifier,
               );
               !exists && products.push(data.val());
+              //console.log(data.val());
             }
           }
         });
