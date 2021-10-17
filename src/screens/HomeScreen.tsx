@@ -11,7 +11,8 @@ import {
   View,
   TouchableOpacity,
   ImageBackground,
-  Pressable
+  Pressable,
+  TouchableHighlight
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Slider from 'rn-range-slider';
@@ -265,16 +266,12 @@ export const Comparizy: React.FC<ComparizyProps> = ({route}) => {
             <View>
               <View style={styles.imageContainer}>
                 <Swiper loop autoplay>
-                  <ImageBackground source={require('../images/Tecnologico.png')} style={styles.posterImage}>
-                    <Pressable style={styles.bannerButton} onPress={GoTecno}>
-                      <Text style={styles.bannerButtonText}>Ir a Tecnologico</Text>
-                    </Pressable>
-                  </ImageBackground>
-                  <ImageBackground source={require('../images/Electrohogar.png')} style={styles.posterImage}>
-                    <Pressable style={styles.bannerButton} onPress={GoElectro}>
-                      <Text style={styles.bannerButtonText}>Ir a Electrohogar</Text>
-                    </Pressable>
-                  </ImageBackground>
+                    <TouchableHighlight onPress={GoTecno} style={styles.bgImageWrapper}>
+                      <Image source={require('../images/Tecnologico.png')} style={styles.bgImage}/>
+                    </TouchableHighlight>
+                    <TouchableHighlight onPress={GoElectro} style={styles.bgImageWrapper}>
+                      <Image source={require('../images/Electrohogar.png')} style={styles.bgImage}/>
+                    </TouchableHighlight>
                 </Swiper>
               </View>
               {/* Introduccion  */}
@@ -435,6 +432,18 @@ const styles = StyleSheet.create({
   imageContainer: {
     marginTop: 20,
     height: screenHeight * 0.3, // 30%
+  },
+  bgImageWrapper: {
+    position: 'absolute',
+    //padding: 12,
+    height: screenHeight * 0.25, // 30%
+    width: screenWidth*0.95
+  },
+  bgImage: {
+      flex: 1,
+      resizeMode: "stretch",
+      width: '100%',
+      height: '100%'
   },
   posterImage: {
     justifyContent: 'center',
