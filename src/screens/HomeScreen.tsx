@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   Pressable,
-  TouchableHighlight
+  TouchableHighlight,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Slider from 'rn-range-slider';
@@ -29,8 +29,8 @@ import {useFilteredProducts} from '../hooks/useFilteredProducts';
 import {useFilteredProductsByCategory} from '../hooks/useFilteredProductsByCategory';
 import {useProducts} from '../hooks/useProducts';
 import {StackNavigationProps} from '../navigation/StackNavigation';
-import { AuthContext } from '../context/AuthContext';
-import { validateShowNotificationSnackBar } from '../api/productService';
+import {AuthContext} from '../context/AuthContext';
+import {validateShowNotificationSnackBar} from '../api/productService';
 import Swiper from 'react-native-swiper';
 
 const screenHeight = Dimensions.get('screen').height;
@@ -77,8 +77,9 @@ export const Comparizy: React.FC<ComparizyProps> = ({route}) => {
     filteredProductsCategory,
     setFilteredProductsCategory,
   } = useFilteredProductsByCategory(5);
-  const uri = `https://img.freepik.com/vector-gratis/diseno-cartel-venta-halloween-oferta-70-descuento_1302-24185.jpg`;
-  var categoryGoal = "";
+  const uri =
+    'https://img.freepik.com/vector-gratis/diseno-cartel-venta-halloween-oferta-70-descuento_1302-24185.jpg';
+  var categoryGoal = '';
 
   const deleteUrl = () => {
     setGeneric(true);
@@ -86,14 +87,14 @@ export const Comparizy: React.FC<ComparizyProps> = ({route}) => {
   };
 
   const GoTecno = () => {
-    categoryGoal = "tecnologia";
-    navigation.navigate('CategoriesScreen', {categoryGoal})
-  }
+    categoryGoal = 'tecnologia';
+    navigation.navigate('CategoriesScreen', {categoryGoal});
+  };
 
   const GoElectro = () => {
-    categoryGoal = "electrohogar";
-    navigation.navigate('CategoriesScreen', {categoryGoal})
-  }
+    categoryGoal = 'electrohogar';
+    navigation.navigate('CategoriesScreen', {categoryGoal});
+  };
 
   const handleValueChange = useCallback((low, high) => {
     setLow(low);
@@ -266,12 +267,22 @@ export const Comparizy: React.FC<ComparizyProps> = ({route}) => {
             <View>
               <View style={styles.imageContainer}>
                 <Swiper loop autoplay>
-                    <TouchableHighlight onPress={GoTecno} style={styles.bgImageWrapper}>
-                      <Image source={require('../images/Tecnologico.png')} style={styles.bgImage}/>
-                    </TouchableHighlight>
-                    <TouchableHighlight onPress={GoElectro} style={styles.bgImageWrapper}>
-                      <Image source={require('../images/Electrohogar.png')} style={styles.bgImage}/>
-                    </TouchableHighlight>
+                  <TouchableHighlight
+                    onPress={GoTecno}
+                    style={styles.bgImageWrapper}>
+                    <Image
+                      source={require('../images/Tecnologico.png')}
+                      style={styles.bgImage}
+                    />
+                  </TouchableHighlight>
+                  <TouchableHighlight
+                    onPress={GoElectro}
+                    style={styles.bgImageWrapper}>
+                    <Image
+                      source={require('../images/Electrohogar.png')}
+                      style={styles.bgImage}
+                    />
+                  </TouchableHighlight>
                 </Swiper>
               </View>
               {/* Introduccion  */}
@@ -437,29 +448,29 @@ const styles = StyleSheet.create({
     position: 'absolute',
     //padding: 12,
     height: screenHeight * 0.25, // 30%
-    width: screenWidth*0.95
+    width: screenWidth * 0.95,
   },
   bgImage: {
-      flex: 1,
-      resizeMode: "stretch",
-      width: '100%',
-      height: '100%'
+    flex: 1,
+    resizeMode: 'stretch',
+    width: '100%',
+    height: '100%',
   },
   posterImage: {
     justifyContent: 'center',
     alignItems: 'center',
     width: 380,
-    height: 180
+    height: 180,
   },
   bannerButton: {
     backgroundColor: '#2880de',
     borderRadius: 30,
     padding: 12,
-    marginTop: 80
+    marginTop: 80,
   },
   bannerButtonText: {
     color: 'white',
-    fontSize: 14
+    fontSize: 14,
   },
   mainTextIntro: {
     marginTop: 20,

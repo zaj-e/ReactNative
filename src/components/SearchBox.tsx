@@ -1,5 +1,5 @@
 import {useFocusEffect} from '@react-navigation/native';
-import React, { useCallback, useEffect, useState } from "react";
+import React, {useCallback, useEffect, useState} from 'react';
 import {StyleSheet, TextInput, View, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
