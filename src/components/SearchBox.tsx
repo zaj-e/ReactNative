@@ -1,4 +1,4 @@
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {StyleSheet, TextInput, View, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -9,6 +9,7 @@ interface SearchBoxProps {
 
 export const SearchBox: React.FC<SearchBoxProps> = ({onPress}) => {
   const [search, setSearch] = useState<string>('');
+  const navigation = useNavigation();
 
   useFocusEffect(
     useCallback(() => {
@@ -18,6 +19,10 @@ export const SearchBox: React.FC<SearchBoxProps> = ({onPress}) => {
 
   const clear = () => {
     setSearch('');
+  };
+
+  const handlePressPicture = () => {
+    navigation.navigate('PictureScreen');
   };
 
   return (
@@ -36,9 +41,12 @@ export const SearchBox: React.FC<SearchBoxProps> = ({onPress}) => {
         <TouchableOpacity onPress={() => onPress(search)}>
           <Icon name="search-outline" size={30} color="#C1C1C1" />
         </TouchableOpacity>
+        <TouchableOpacity onPress={handlePressPicture}>
+          <Icon name="camera-outline" size={30} color="#C1C1C1" />
+        </TouchableOpacity>
       </View>
     </View>
-  );  
+  );
 };
 
 const styles = StyleSheet.create({

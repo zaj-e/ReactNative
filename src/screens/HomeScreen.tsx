@@ -13,7 +13,7 @@ import {
   View,
   TouchableOpacity,
   ImageBackground,
-  Pressable
+  Pressable,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Slider from 'rn-range-slider';
@@ -30,8 +30,8 @@ import {useFilteredProducts} from '../hooks/useFilteredProducts';
 import {useFilteredProductsByCategory} from '../hooks/useFilteredProductsByCategory';
 import {useProducts} from '../hooks/useProducts';
 import {StackNavigationProps} from '../navigation/StackNavigation';
-import { AuthContext } from '../context/AuthContext';
-import { validateShowNotificationSnackBar } from '../api/productService';
+import {AuthContext} from '../context/AuthContext';
+import {validateShowNotificationSnackBar} from '../api/productService';
 import Swiper from 'react-native-swiper';
 
 const screenHeight = Dimensions.get('screen').height;
@@ -43,6 +43,10 @@ interface ComparizyProps
 export const Comparizy: React.FC<ComparizyProps> = ({route}) => {
   let url: string | undefined;
   url = route.params ? route.params.url : undefined;
+
+  let searchString: string | undefined;
+  searchString = route.params ? route.params.prediction : undefined;
+
   const {products, setProducts, getProducts} = useProducts();
   const [filterValue, setFilteredValue] = useState('');
   const [isHome, setIsHome] = useState(true);
@@ -74,8 +78,9 @@ export const Comparizy: React.FC<ComparizyProps> = ({route}) => {
     filteredProductsCategory,
     setFilteredProductsCategory,
   } = useFilteredProductsByCategory(5);
-  const uri = `https://img.freepik.com/vector-gratis/diseno-cartel-venta-halloween-oferta-70-descuento_1302-24185.jpg`;
-  var categoryGoal = "";
+  const uri =
+    'https://img.freepik.com/vector-gratis/diseno-cartel-venta-halloween-oferta-70-descuento_1302-24185.jpg';
+  var categoryGoal = '';
 
   const deleteUrl = () => {
     setGeneric(true);
@@ -83,14 +88,14 @@ export const Comparizy: React.FC<ComparizyProps> = ({route}) => {
   };
 
   const GoTecno = () => {
-    categoryGoal = "tecnologia";
-    navigation.navigate('CategoriesScreen', {categoryGoal})
-  }
+    categoryGoal = 'tecnologia';
+    navigation.navigate('CategoriesScreen', {categoryGoal});
+  };
 
   const GoElectro = () => {
-    categoryGoal = "electrohogar";
-    navigation.navigate('CategoriesScreen', {categoryGoal})
-  }
+    categoryGoal = 'electrohogar';
+    navigation.navigate('CategoriesScreen', {categoryGoal});
+  };
 
   const handleValueChange = useCallback((low, high) => {
     setLow(low);
@@ -98,12 +103,18 @@ export const Comparizy: React.FC<ComparizyProps> = ({route}) => {
   }, []);
 
   const loadMore = async () => {
-    if (!reachedBottom && filterValue !== '' && filteredProducts.length > 0 && isGeneric) {
+    if (
+      !reachedBottom &&
+      filterValue !== '' &&
+      filteredProducts.length > 0 &&
+      isGeneric
+    ) {
       await loadFilteredProducts(filterValue, low, high, true);
     }
     if (
       !reachedBottomCategory &&
-      ((filterValue !== '' || filteredProductsCategory.length > 0) && !isGeneric)
+      (filterValue !== '' || filteredProductsCategory.length > 0) &&
+      !isGeneric
     ) {
       await loadFilteredProductsByCategory(filterValue, url!, low, high, true);
     }
@@ -130,20 +141,24 @@ export const Comparizy: React.FC<ComparizyProps> = ({route}) => {
   useEffect(() => {
     (async () => {
       if (authState && authState.notificationProducts.length > 0) {
-        let products = await validateShowNotificationSnackBar(authState.notificationProducts);
+        let products = await validateShowNotificationSnackBar(
+          authState.notificationProducts,
+        );
         if (products.length > 0) {
-          Snackbar && Snackbar.show({
-            text: 'Algunos productos han cambiado de precio',
-            duration: Snackbar.LENGTH_LONG,
-            action: {
-              text: 'VER',
-              textColor: 'orange',
-              onPress: () => navigation.navigate('ProductNotificationScreen', { products }),
-            },
-          });
-          console.log("There Are Products Wiith Price Changes!!");
+          Snackbar &&
+            Snackbar.show({
+              text: 'Algunos productos han cambiado de precio',
+              duration: Snackbar.LENGTH_LONG,
+              action: {
+                text: 'VER',
+                textColor: 'orange',
+                onPress: () =>
+                  navigation.navigate('ProductNotificationScreen', {products}),
+              },
+            });
+          console.log('There Are Products Wiith Price Changes!!');
         } else {
-          console.log("Sad Face");
+          console.log('Sad Face');
         }
       }
     })();
@@ -174,9 +189,12 @@ export const Comparizy: React.FC<ComparizyProps> = ({route}) => {
   );
 
   useEffect(() => {
-    if (filteredProducts.length > 0 && isGeneric) setProducts(filteredProducts);
-    if (filteredProductsCategory.length > 0 && !isGeneric)
+    if (filteredProducts.length > 0 && isGeneric) {
+      setProducts(filteredProducts);
+    }
+    if (filteredProductsCategory.length > 0 && !isGeneric) {
       setProducts(filteredProductsCategory);
+    }
   }, [filteredProducts, filteredProductsCategory]);
 
   return (
@@ -190,7 +208,12 @@ export const Comparizy: React.FC<ComparizyProps> = ({route}) => {
                 Busque por nombre, precio, marca o categoría
               </Text>
             ) : (
-              <View style={{ display:'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
                 <View style={styles.tag}>
                   <Text style={{paddingLeft: 5}}>{url!.split('/').pop()}</Text>
                   <View style={styles.cross}>
@@ -245,14 +268,22 @@ export const Comparizy: React.FC<ComparizyProps> = ({route}) => {
             <View>
               <View style={styles.imageContainer}>
                 <Swiper loop autoplay>
-                  <ImageBackground source={require('../images/Tecnologico.png')} style={styles.posterImage}>
+                  <ImageBackground
+                    source={require('../images/Tecnologico.png')}
+                    style={styles.posterImage}>
                     <Pressable style={styles.bannerButton} onPress={GoTecno}>
-                      <Text style={styles.bannerButtonText}>Ir a Tecnologico</Text>
+                      <Text style={styles.bannerButtonText}>
+                        Ir a Tecnologico
+                      </Text>
                     </Pressable>
                   </ImageBackground>
-                  <ImageBackground source={require('../images/Electrohogar.png')} style={styles.posterImage}>
+                  <ImageBackground
+                    source={require('../images/Electrohogar.png')}
+                    style={styles.posterImage}>
                     <Pressable style={styles.bannerButton} onPress={GoElectro}>
-                      <Text style={styles.bannerButtonText}>Ir a Electrohogar</Text>
+                      <Text style={styles.bannerButtonText}>
+                        Ir a Electrohogar
+                      </Text>
                     </Pressable>
                   </ImageBackground>
                 </Swiper>
@@ -420,17 +451,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: 380,
-    height: 180
+    height: 180,
   },
   bannerButton: {
     backgroundColor: '#2880de',
     borderRadius: 30,
     padding: 12,
-    marginTop: 80
+    marginTop: 80,
   },
   bannerButtonText: {
     color: 'white',
-    fontSize: 14
+    fontSize: 14,
   },
   mainTextIntro: {
     marginTop: 20,
@@ -463,11 +494,11 @@ const styles = StyleSheet.create({
   },
   cross: {
     position: 'absolute',
-    display: 'flex',  
+    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
     top: 0,
-    left: (screenWidth * 0.35) - 25  ,
+    left: screenWidth * 0.35 - 25,
     zIndex: 999,
     elevation: 14,
   },
@@ -477,5 +508,5 @@ const styles = StyleSheet.create({
     width: screenWidth * 0.35,
     borderRadius: 5,
     padding: 4,
-  }
+  },
 });
